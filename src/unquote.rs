@@ -47,3 +47,9 @@ pub fn unquote(s: &str) -> Result<String, FromUtf8Error> {
     }
     return String::from_utf8(result);
 }
+
+
+pub fn unquote_plus(s: &str) -> Result<String, FromUtf8Error> {
+    let _s = s.replace("+", " ");
+    return unquote(&_s);
+}
