@@ -21,3 +21,13 @@ pub fn quote(s: &str, safe: &[u8]) -> Result<String, FromUtf8Error> {
     }
     return String::from_utf8(result);
 }
+
+
+pub fn quote_plus(s: &str, safe: &[u8]) -> Result<String, FromUtf8Error> {
+    let mut _safe : Vec<u8> = safe.to_vec();
+    _safe.push(b' ');
+    match quote(s, _safe.iter().as_slice()) {
+        Ok(result) => return Ok(result.replace(" ", "+")),
+        Err(e)     => return Err(e),
+    }
+}
