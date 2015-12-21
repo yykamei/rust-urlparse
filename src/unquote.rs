@@ -1,4 +1,4 @@
-use  std::string::FromUtf8Error;
+use std::string::FromUtf8Error;
 use std::char::from_u32;
 
 

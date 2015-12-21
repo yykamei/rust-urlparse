@@ -1,4 +1,4 @@
-use  std::string::FromUtf8Error;
+use std::string::FromUtf8Error;
 
 const ALWAYS_SAFE_BYTES : &'static [u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ\
                                             abcdefghijklmnopqrstuvwxyz\

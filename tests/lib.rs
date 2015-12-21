@@ -1,5 +1,5 @@
 extern crate urlparse;
-use urlparse::{quote, quote_plus, unquote, unquote_plus};
+use urlparse::{quote, quote_plus, unquote, unquote_plus, parse_qs};
 
 
 #[test]
@@ -43,4 +43,23 @@ fn test_quote_unquote() {
     assert_eq!(text1, unquoted_text1);
     assert_eq!(text2, unquoted_text2);
     assert_eq!(text3, unquoted_text3);
+}
+
+#[test]
+fn test_parse_qs() {
+    let map1 = parse_qs("q=%E3%83%86%E3%82%B9%E3%83%88+%E3%83%86%E3%82%B9%E3%83%88&e=utf-8");
+    let map2 = parse_qs("a=123&a=90&a=%E4%BA%80%E4%BA%95&b=0;n1;n2");
+    let q = map1.get(&"q".to_string()).unwrap().get(0).unwrap();
+    let e = map1.get(&"e".to_string()).unwrap().get(0).unwrap();
+    let a = map2.get(&"a".to_string()).unwrap();
+    let b = map2.get(&"b".to_string()).unwrap();
+    let n1 = map2.get(&"n1".to_string());
+    let n2 = map2.get(&"n2".to_string());
+    assert_eq!(*q, "テスト テスト".to_string());
+    assert_eq!(*e, "utf-8".to_string());
+    assert_eq!(a.len(), 3);
+    assert_eq!(b.len(), 1);
+    assert_eq!(*a.get(2).unwrap(), "亀井");
+    assert_eq!(n1, None);
+    assert_eq!(n2, None);
 }
