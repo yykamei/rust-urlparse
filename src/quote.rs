@@ -6,6 +6,20 @@ const ALWAYS_SAFE_BYTES : &'static [u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ\
                                             _.-";
 
 
+/// Replace special characters in string using the %xx escape.
+/// Letters, digits, and the characters '_.-' are never quoted.
+///
+/// # Examples
+///
+/// ```
+/// use urlparse::quote;
+///
+/// let s = quote("test@example.com", &[]);
+/// assert_eq!(s.ok().unwrap(), "test%40example.com");
+/// let path = quote("/a/b/c", &[b'/']);
+/// assert_eq!(path.ok().unwrap(), "/a/b/c");
+/// ```
+///
 pub fn quote(s: &str, safe: &[u8]) -> Result<String, FromUtf8Error> {
     let mut result : Vec<u8> = Vec::new();
     let items = s.as_bytes();
@@ -23,6 +37,17 @@ pub fn quote(s: &str, safe: &[u8]) -> Result<String, FromUtf8Error> {
 }
 
 
+/// Like quote(), but also replace ' ' with '+', as required for quoting HTML form values.
+///
+/// # Examples
+///
+/// ```
+/// use urlparse::quote_plus;
+///
+/// let s = quote_plus("a - b = 123", &[]);
+/// assert_eq!(s.ok().unwrap(), "a+-+b+%3D+123");
+/// ```
+///
 pub fn quote_plus(s: &str, safe: &[u8]) -> Result<String, FromUtf8Error> {
     let mut _safe : Vec<u8> = safe.to_vec();
     _safe.push(b' ');

@@ -2,6 +2,17 @@ use std::string::FromUtf8Error;
 use std::char::from_u32;
 
 
+/// Replace %xx escapes by their single-character equivalent.
+///
+/// # Examples
+///
+/// ```
+/// use urlparse::unquote;
+///
+/// let s = unquote("ABC%3D123%21%20DEF%3D%23%23");
+/// assert_eq!(s.ok().unwrap(), "ABC=123! DEF=##");
+/// ```
+///
 pub fn unquote(s: &str) -> Result<String, FromUtf8Error> {
     let mut result : Vec<u8> = Vec::new();
     let mut items = s.as_bytes().split(|&b| b == b'%');
@@ -48,7 +59,18 @@ pub fn unquote(s: &str) -> Result<String, FromUtf8Error> {
     return String::from_utf8(result);
 }
 
-
+/// Like unquote(), but also replace plus signs by spaces, as required for
+/// unquoting HTML form values.
+///
+/// # Examples
+///
+/// ```
+/// use urlparse::unquote_plus;
+///
+/// let s = unquote_plus("ABC%3D123%21+DEF%3D%23%23");
+/// assert_eq!(s.ok().unwrap(), "ABC=123! DEF=##");
+/// ```
+///
 pub fn unquote_plus(s: &str) -> Result<String, FromUtf8Error> {
     let _s = s.replace("+", " ");
     return unquote(&_s);
