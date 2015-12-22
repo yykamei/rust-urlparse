@@ -1,5 +1,5 @@
 extern crate urlparse;
-use urlparse::{quote, quote_plus, unquote, unquote_plus, parse_qs};
+use urlparse::*;
 
 
 #[test]
