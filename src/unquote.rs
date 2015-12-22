@@ -1,3 +1,5 @@
+/* Copyright (C) 2015 Yutaka Kamei */
+
 use std::string::FromUtf8Error;
 use std::char::from_u32;
 

@@ -1,3 +1,5 @@
+/* Copyright (C) 2015 Yutaka Kamei */
+
 mod quote;
 mod unquote;
 mod query_string;

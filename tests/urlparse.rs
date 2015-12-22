@@ -1,3 +1,5 @@
+/* Copyright (C) 2015 Yutaka Kamei */
+
 extern crate urlparse;
 use urlparse::*;
 

@@ -1,3 +1,5 @@
+/* Copyright (C) 2015 Yutaka Kamei */
+
 use std::collections::HashMap;
 use query_string::parse_qs;
 use unquote::unquote;
