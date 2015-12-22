@@ -11,19 +11,38 @@ const SCHEMA_CHARS : &'static str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\
 
 #[derive(PartialEq, Eq, Clone, Debug, Hash, PartialOrd, Ord)]
 pub struct Url {
+    /// URL scheme specifier
     pub scheme: String,
+
+    /// Network location part
     pub netloc: String,
+
+    /// Hierarchical path
     pub path: String,
+
+    /// Query component
     pub query: Option<String>,
+
+    /// Fragment identifier
     pub fragment: Option<String>,
+
+    /// User name
     pub username: Option<String>,
+
+    /// Password
     pub password: Option<String>,
+
+    /// Host name (lower case)
     pub hostname: Option<String>,
+
+    /// Port number as integer
     pub port: Option<u16>,
 }
 
 
 impl Url {
+    /// Creates a new `Url` initialized with the empty string or None value.
+    ///
     pub fn new() -> Url {
         Url {
             scheme: "".to_string(),
@@ -38,6 +57,8 @@ impl Url {
         }
     }
 
+    /// Parse a URL and return `Url` object.
+    ///
     pub fn parse(s: &str) -> Url {
         let (scheme, extra) = match s.find(':') {
             Some(pos) => {
@@ -51,7 +72,8 @@ impl Url {
                 }
                 let (_a, _b) = if is_scheme { (a, &b[1..]) } else { ("", s) };
                 match _b.parse::<u16>() {
-                    Ok(_)   => ("", s),  // It is not scheme because ':' after scheme is port number
+                    Ok(_)   => ("", s),  // It is not a scheme because ':'
+                                         // after the scheme is port number.
                     Err(_)  => (_a, _b),
                 }
             },
@@ -142,6 +164,19 @@ impl Url {
         }
     }
 
+    /// Return a query object by executing `parse_qs()` with self.query.
+    /// If parsing a query fails, None value will be returned.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use urlparse::urlparse;
+    ///
+    /// let url = urlparse("http://www.example.com/?a=123&b=A%20B");
+    /// let query = url.get_parsed_query().unwrap();
+    /// assert_eq!(query.get(&"b".to_string()).unwrap().get(0).unwrap(), "A B");
+    /// ```
+    ///
     pub fn get_parsed_query(&self) -> Option<HashMap<String, Vec<String>>> {
         match self.query {
             Some(ref q) => Some(parse_qs(&q)),
@@ -151,4 +186,6 @@ impl Url {
 }
 
 
+/// Parse a URL and return `Url` object. This is synonymous with `Url::parse()`.
+///
 pub fn urlparse(s: &str) -> Url { Url::parse(s) }
