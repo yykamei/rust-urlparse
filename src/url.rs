@@ -60,6 +60,29 @@ impl Url {
 
     /// Parse a URL and return `Url` object.
     ///
+    /// # Examples
+    ///
+    /// ```
+    /// use urlparse::Url;
+    ///
+    /// let url = Url::parse("http://Example.com:8080/foo?filter=%28%21%28cn%3Dbar%29%29");
+    /// assert_eq!(url.scheme, "http");
+    /// assert_eq!(url.netloc, "Example.com:8080");
+    /// assert_eq!(url.path, "/foo");
+    /// assert_eq!(url.query, Some("filter=%28%21%28cn%3Dbar%29%29".to_string()));
+    /// assert_eq!(url.fragment, None);
+    /// assert_eq!(url.username, None);
+    /// assert_eq!(url.password, None);
+    /// assert_eq!(url.hostname, Some("example.com".to_string()));
+    /// assert_eq!(url.port, Some(8080));
+    ///
+    /// let query = match url.get_parsed_query() {
+    ///     Some(q) => q,
+    ///     None    => panic!("Failed to parse my query"),
+    /// };
+    /// assert_eq!(query.get(&"filter".to_string()).unwrap().get(0).unwrap(), "(!(cn=bar))");
+    /// ```
+    ///
     pub fn parse(s: &str) -> Url {
         let (scheme, extra) = match s.find(':') {
             Some(pos) => {
