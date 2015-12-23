@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["quote","Replace special characters in string using the %xx escape. Letters, digits, and the characters '_.-' are never quoted."],["quote_plus","Like quote(), but also replace ' ' with '+', as required for quoting HTML form values."]]});
