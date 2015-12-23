@@ -2,7 +2,6 @@
 
 use std::collections::HashMap;
 use query_string::parse_qs;
-use unquote::unquote;
 
 
 const SCHEMA_CHARS : &'static str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\
@@ -147,18 +146,9 @@ impl Url {
         Url {
             scheme: scheme.to_string().to_lowercase(),
             netloc: netloc.to_string(),
-            path: match unquote(path) {
-                Ok(p) => p,
-                Err(_) => path.to_string(),
-            },
-            query: match unquote(query) {
-                Ok(q)  => if q.is_empty() { None } else { Some(q) },
-                Err(_) => None,
-            },
-            fragment: match unquote(fragment) {
-                Ok(f)  => if f.is_empty() { None } else { Some(f) },
-                Err(_) => None,
-            },
+            path: path.to_string(),
+            query: if query.is_empty() { None } else { Some(query.to_string()) },
+            fragment: if fragment.is_empty() { None } else { Some(fragment.to_string()) },
             username: if username.is_empty() { None } else { Some(username.to_string()) },
             password: if password.is_empty() { None } else { Some(password.to_string()) },
             hostname: if hostname.is_empty() { None } else { Some(hostname.to_string().to_lowercase()) },
