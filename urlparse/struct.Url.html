@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-84' class='srclink' href='../src/urlparse/url.rs.html#14-41' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-115' class='srclink' href='../src/urlparse/url.rs.html#13-40' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Url {
     pub scheme: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
     pub netloc: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
@@ -99,7 +99,7 @@
     <span class='prelude-val'>None</span>    <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Failed to parse my query&quot;</span>),
 };
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>query</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='string'>&quot;filter&quot;</span>.<span class='ident'>to_string</span>()).<span class='ident'>unwrap</span>().<span class='ident'>get</span>(<span class='number'>0</span>).<span class='ident'>unwrap</span>(), <span class='string'>&quot;(!(cn=bar))&quot;</span>);</pre>
-</div><h4 id='method.get_parsed_query' class='method'><code>fn <a href='#method.get_parsed_query' class='fnname'>get_parsed_query</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;&gt;&gt;</code></h4>
+</div><h4 id='method.get_parsed_query' class='method'><code>fn <a href='#method.get_parsed_query' class='fnname'>get_parsed_query</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../urlparse/type.Query.html' title='urlparse::Query'>Query</a>&gt;</code></h4>
 <div class='docblock'><p>Return a query object by executing <code>parse_qs()</code> with self.query.
 If parsing a query fails, None value will be returned.</p>
 
