@@ -4,13 +4,30 @@ use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use unquote::unquote_plus;
 
-type QueryValue = Vec<String>;
+/// An alias type of `Vec<String>`.
+///
+pub type QueryValue = Vec<String>;
+
+/// An alias type of `HashMap<String, QueryValue>`.
+///
 pub type Query = HashMap<String, QueryValue>;
 
 
 pub trait GetQuery {
+    /// Get first value from Vec<String> via HashMap.get().
+    ///
     fn get_first(&self, k: &String) -> Option<&String>;
+
+    /// Get value from `Vec<String>` via `HashMap.get()`.
+    /// This requires one &str argument and returns `Option<QueryValue>`
+    /// instead of `Option<&QueryValue>`.
+    ///
     fn get_from_str(&self, k: &str) -> Option<QueryValue>;
+
+    /// Get first value from `Vec<String>` via `HashMap.get()`.
+    /// This requires one &str argument and returns `Option<String>`
+    /// instead of `Option<&String>`.
+    ///
     fn get_first_from_str(&self, k: &str) -> Option<String>;
 }
 
