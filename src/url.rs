@@ -1,7 +1,6 @@
 /* Copyright (C) 2015 Yutaka Kamei */
 
-use std::collections::HashMap;
-use query_string::parse_qs;
+use query_string::{Query, parse_qs};
 
 
 const SCHEMA_CHARS : &'static str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\
@@ -192,7 +191,7 @@ impl Url {
     /// assert_eq!(query.get(&"b".to_string()).unwrap().get(0).unwrap(), "A B");
     /// ```
     ///
-    pub fn get_parsed_query(&self) -> Option<HashMap<String, Vec<String>>> {
+    pub fn get_parsed_query(&self) -> Option<Query> {
         match self.query {
             Some(ref q) => Some(parse_qs(&q)),
             None        => None,

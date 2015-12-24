@@ -4,6 +4,43 @@ use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use unquote::unquote_plus;
 
+type QueryValue = Vec<String>;
+pub type Query = HashMap<String, QueryValue>;
+
+
+pub trait GetQuery {
+    fn get_first(&self, k: &String) -> Option<&String>;
+    fn get_from_str(&self, k: &str) -> Option<QueryValue>;
+    fn get_first_from_str(&self, k: &str) -> Option<String>;
+}
+
+
+impl GetQuery for Query {
+    fn get_first(&self, k: &String) -> Option<&String> {
+        match self.get(k) {
+            Some(value) => value.get(0),
+            None        => None,
+        }
+    }
+
+    fn get_from_str(&self, k: &str) -> Option<QueryValue> {
+        match self.get(&k.to_string()) {
+            Some(value) => Some(value.iter().map(|e| e.to_string()).collect()),
+            None        => None,
+        }
+    }
+
+    fn get_first_from_str(&self, k: &str) -> Option<String> {
+        match self.get(&k.to_string()) {
+            Some(value) => match value.get(0) {
+                Some(string) => Some(string.to_string()),
+                None         => None,
+            },
+            None        => None,
+        }
+    }
+}
+
 
 /// Parse a query given as a string argument.
 ///
@@ -20,8 +57,8 @@ use unquote::unquote_plus;
 /// assert_eq!(*a.get(2).unwrap(), "亀井");
 /// ```
 ///
-pub fn parse_qs(s: &str) -> HashMap<String, Vec<String>> {
-    let mut map : HashMap<String, Vec<String>> = HashMap::new();
+pub fn parse_qs(s: &str) -> Query {
+    let mut map : Query = Query::new();
     for item in s.split(|c| c == '&' || c == ';') {
         match item.find('=') {
             Some(index) => {
@@ -34,6 +71,9 @@ pub fn parse_qs(s: &str) -> HashMap<String, Vec<String>> {
                     Ok(v)  => v,
                     Err(_) => continue,  // FIXME: This is not strict mode.
                 };
+                if _value.is_empty() {
+                    continue;
+                }
                 let mut result = match map.entry(_key) {
                     Vacant(entry)   => entry.insert(Vec::new()),
                     Occupied(entry) => entry.into_mut(),

@@ -172,7 +172,7 @@ fn test_urlparse_noslash() {
     assert_eq!(url.scheme, "http");
     assert_eq!(url.netloc, "example.com");
     assert_eq!(url.path, "");
-    assert_eq!(query.get(&"blahblah".to_string()).unwrap().get(0).unwrap(), "/foo");
+    assert_eq!(query.get_first_from_str("blahblah").unwrap(), "/foo");
 }
 
 
