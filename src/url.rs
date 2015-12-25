@@ -178,6 +178,29 @@ impl Url {
         }
     }
 
+    /// Return a URL string from `Url` object.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use urlparse::urlparse;
+    ///
+    /// let original_str = "http://www.example.com/?a=123&b=A%20B";
+    /// let url = urlparse(original_str);
+    /// assert_eq!(original_str, url.unparse());
+    /// ```
+    ///
+    pub fn unparse(&self) -> String {
+        let mut result = format!("{}://{}{}", self.scheme, self.netloc, self.path);
+        if let Some(ref q) = self.query {
+            result.push_str(&format!("?{}", q));
+        }
+        if let Some(ref f) = self.fragment {
+            result.push_str(&format!("#{}", f));
+        }
+        return result;
+    }
+
     /// Return a query object by executing `parse_qs()` with self.query.
     /// If parsing a query fails, None value will be returned.
     ///
@@ -203,3 +226,9 @@ impl Url {
 /// Parse a URL and return `Url` object. This is synonymous with `Url::parse()`.
 ///
 pub fn urlparse(s: &str) -> Url { Url::parse(s) }
+
+
+/// Return a URL string from `Url` object.
+/// This is synonymous with `unparse()` defined in `Url`.
+///
+pub fn urlunparse(url: Url) -> String { url.unparse() }

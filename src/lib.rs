@@ -11,4 +11,5 @@ pub use unquote::unquote_plus;
 pub use query_string::parse_qs;
 pub use query_string::{Query, QueryValue, GetQuery};
 pub use url::urlparse;
+pub use url::urlunparse;
 pub use url::Url;
