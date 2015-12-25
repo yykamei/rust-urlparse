@@ -99,6 +99,15 @@
     <span class='prelude-val'>None</span>    <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Failed to parse my query&quot;</span>),
 };
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>query</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='string'>&quot;filter&quot;</span>.<span class='ident'>to_string</span>()).<span class='ident'>unwrap</span>().<span class='ident'>get</span>(<span class='number'>0</span>).<span class='ident'>unwrap</span>(), <span class='string'>&quot;(!(cn=bar))&quot;</span>);</pre>
+</div><h4 id='method.unparse' class='method'><code>fn <a href='#method.unparse' class='fnname'>unparse</a>(&amp;self) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></code></h4>
+<div class='docblock'><p>Return a URL string from <code>Url</code> object.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>urlparse</span>::<span class='ident'>urlparse</span>;
+
+<span class='kw'>let</span> <span class='ident'>original_str</span> <span class='op'>=</span> <span class='string'>&quot;http://www.example.com/?a=123&amp;b=A%20B&quot;</span>;
+<span class='kw'>let</span> <span class='ident'>url</span> <span class='op'>=</span> <span class='ident'>urlparse</span>(<span class='ident'>original_str</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>original_str</span>, <span class='ident'>url</span>.<span class='ident'>unparse</span>());</pre>
 </div><h4 id='method.get_parsed_query' class='method'><code>fn <a href='#method.get_parsed_query' class='fnname'>get_parsed_query</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../urlparse/type.Query.html' title='urlparse::Query'>Query</a>&gt;</code></h4>
 <div class='docblock'><p>Return a query object by executing <code>parse_qs()</code> with self.query.
 If parsing a query fails, None value will be returned.</p>

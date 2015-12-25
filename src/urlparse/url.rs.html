@@ -245,6 +245,35 @@
 <span id="203">203</span>
 <span id="204">204</span>
 <span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
 </pre><pre class='rust '>
 <span class='comment'>/* Copyright (C) 2015 Yutaka Kamei */</span>
 
@@ -426,6 +455,29 @@
         }
     }
 
+    <span class='doccomment'>/// Return a URL string from `Url` object.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// use urlparse::urlparse;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let original_str = &quot;http://www.example.com/?a=123&amp;b=A%20B&quot;;</span>
+    <span class='doccomment'>/// let url = urlparse(original_str);</span>
+    <span class='doccomment'>/// assert_eq!(original_str, url.unparse());</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>///</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unparse</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}://{}{}&quot;</span>, <span class='self'>self</span>.<span class='ident'>scheme</span>, <span class='self'>self</span>.<span class='ident'>netloc</span>, <span class='self'>self</span>.<span class='ident'>path</span>);
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>q</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>query</span> {
+            <span class='ident'>result</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;?{}&quot;</span>, <span class='ident'>q</span>));
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>f</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>fragment</span> {
+            <span class='ident'>result</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;#{}&quot;</span>, <span class='ident'>f</span>));
+        }
+        <span class='kw'>return</span> <span class='ident'>result</span>;
+    }
+
     <span class='doccomment'>/// Return a query object by executing `parse_qs()` with self.query.</span>
     <span class='doccomment'>/// If parsing a query fails, None value will be returned.</span>
     <span class='doccomment'>///</span>
@@ -451,6 +503,12 @@
 <span class='doccomment'>/// Parse a URL and return `Url` object. This is synonymous with `Url::parse()`.</span>
 <span class='doccomment'>///</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>urlparse</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Url</span> { <span class='ident'>Url</span>::<span class='ident'>parse</span>(<span class='ident'>s</span>) }
+
+
+<span class='doccomment'>/// Return a URL string from `Url` object.</span>
+<span class='doccomment'>/// This is synonymous with `unparse()` defined in `Url`.</span>
+<span class='doccomment'>///</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>urlunparse</span>(<span class='ident'>url</span>: <span class='ident'>Url</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> { <span class='ident'>url</span>.<span class='ident'>unparse</span>() }
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
