@@ -307,3 +307,12 @@ fn test_urlparse_fragments() {
     assert_eq!(url.path, "");
     assert_eq!(url.fragment, Some("frag".to_string()));
 }
+
+
+#[test]
+fn test_urlparse_empty() {
+    let url = Url::parse("");
+    assert_eq!(url.scheme, "");
+    assert_eq!(url.netloc, "");
+    assert_eq!(url.path, "");
+}
