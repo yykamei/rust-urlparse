@@ -55,8 +55,42 @@
 <span id="13">13</span>
 <span id="14">14</span>
 <span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
 </pre><pre class='rust '>
 <span class='comment'>/* Copyright (C) 2015 Yutaka Kamei */</span>
+
+<span class='doccomment'>//! This is a URL parsing library.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! The goal of this project is to provide simple parsing URL library</span>
+<span class='doccomment'>//! like urllib.parse in Python3.x.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! # Examples</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! use urlparse::urlparse;</span>
+<span class='doccomment'>//! use urlparse::GetQuery;  // Trait</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! let url = urlparse(&quot;http://www.example.com/foo?bar=123&amp;col=println%21%28%22TEST%21%22%29&amp;col=sub&quot;);</span>
+<span class='doccomment'>//! let query = url.get_parsed_query().unwrap();</span>
+<span class='doccomment'>//! assert_eq!(url.scheme, &quot;http&quot;);</span>
+<span class='doccomment'>//! assert_eq!(query.get_first_from_str(&quot;col&quot;).unwrap(), &quot;println!(\&quot;TEST!\&quot;)&quot;);</span>
+<span class='doccomment'>//! ```</span>
 
 <span class='kw'>mod</span> <span class='ident'>quote</span>;
 <span class='kw'>mod</span> <span class='ident'>unquote</span>;
