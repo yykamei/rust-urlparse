@@ -14,19 +14,22 @@ like urllib.parse in Python3.x.
 ``` rust
 extern crate urlparse;
 use urlparse::urlparse;
-    
+use urlparse::GetQuery;  // Trait
+
 fn main() {
-    let url = urlparse("http://www.example.com/foo?bar=123");
+    let url = urlparse("http://www.example.com/foo?bar=123&col=println%21%28%22TEST%21%22%29&col=sub");
+    let query = url.get_parsed_query().unwrap();
     println!("{:?}", url);
+    println!("{:?}", query.get_first_from_str("col"));
 }
 ```
 
 ### Output
 
 ```
-Url { scheme: "http", netloc: "www.example.com", path: "/foo", query: Some("bar=123"), fragment: None, username: None, password: None, hostname: Some("www.example.com"), port: None }
+Url { scheme: "http", netloc: "www.example.com", path: "/foo", query: Some("bar=123&col=println%21%28%22TEST%21%22%29&col=sub"), fragment: None, username: None, password: None, hostname: Some("www.example.com"), port: None }
+Some("println!(\"TEST!\")")
 ```
-
 
 ## License
 
