@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["urlparse","Parse a URL and return `Url` object. This is synonymous with `Url::parse()`."],["urlunparse","Return a URL string from `Url` object. This is synonymous with `unparse()` defined in `Url`."]],"struct":[["Url",""]]});
+initSidebarItems({"fn":[["urlparse","Parses a URL and returns a `Url` object. This is synonymous with `Url::parse()`."],["urlunparse","Returns a URL string from a `Url` object. This is synonymous with `unparse()` defined in `Url`."]],"struct":[["Url",""]]});

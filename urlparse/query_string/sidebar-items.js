@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["parse_qs","Parse a query given as a string argument."]],"trait":[["GetQuery",""]],"type":[["Query","An alias type of `HashMap<String, QueryValue>`."],["QueryValue","An alias type of `Vec<String>`."]]});
+initSidebarItems({"fn":[["parse_qs","Parses a query given as a string argument."]],"trait":[["GetQuery",""]],"type":[["Query","An alias type of `HashMap<String, QueryValue>`."],["QueryValue","An alias type of `Vec<String>`."]]});
