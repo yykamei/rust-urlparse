@@ -8,7 +8,7 @@ const ALWAYS_SAFE_BYTES : &'static [u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ\
                                             _.-";
 
 
-/// Replace special characters in string using the %xx escape.
+/// Replaces special characters in string using the %xx escape.
 /// Letters, digits, and the characters '_.-' are never quoted.
 ///
 /// # Examples
@@ -39,7 +39,7 @@ pub fn quote(s: &str, safe: &[u8]) -> Result<String, FromUtf8Error> {
 }
 
 
-/// Like quote(), but also replace ' ' with '+', as required for quoting HTML form values.
+/// Like quote(), but also replaces ' ' with '+', as required for quoting HTML form values.
 ///
 /// # Examples
 ///

@@ -14,17 +14,17 @@ pub type Query = HashMap<String, QueryValue>;
 
 
 pub trait GetQuery {
-    /// Get first value from Vec<String> via HashMap.get().
+    /// Gets first value from Vec<String> via HashMap.get().
     ///
     fn get_first(&self, k: &String) -> Option<&String>;
 
-    /// Get value from `Vec<String>` via `HashMap.get()`.
+    /// Gets value from `Vec<String>` via `HashMap.get()`.
     /// This requires one &str argument and returns `Option<QueryValue>`
     /// instead of `Option<&QueryValue>`.
     ///
     fn get_from_str(&self, k: &str) -> Option<QueryValue>;
 
-    /// Get first value from `Vec<String>` via `HashMap.get()`.
+    /// Gets first value from `Vec<String>` via `HashMap.get()`.
     /// This requires one &str argument and returns `Option<String>`
     /// instead of `Option<&String>`.
     ///
@@ -59,7 +59,7 @@ impl GetQuery for Query {
 }
 
 
-/// Parse a query given as a string argument.
+/// Parses a query given as a string argument.
 ///
 /// # Examples
 ///

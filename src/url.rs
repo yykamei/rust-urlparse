@@ -57,7 +57,7 @@ impl Url {
         }
     }
 
-    /// Parse a URL and return `Url` object.
+    /// Parses a URL and returns a `Url` object.
     ///
     /// # Examples
     ///
@@ -178,7 +178,7 @@ impl Url {
         }
     }
 
-    /// Return a URL string from `Url` object.
+    /// Returns a URL string from a `Url` object.
     ///
     /// # Examples
     ///
@@ -223,12 +223,12 @@ impl Url {
 }
 
 
-/// Parse a URL and return `Url` object. This is synonymous with `Url::parse()`.
+/// Parses a URL and returns a `Url` object. This is synonymous with `Url::parse()`.
 ///
 pub fn urlparse(s: &str) -> Url { Url::parse(s) }
 
 
-/// Return a URL string from `Url` object.
+/// Returns a URL string from a `Url` object.
 /// This is synonymous with `unparse()` defined in `Url`.
 ///
 pub fn urlunparse(url: Url) -> String { url.unparse() }

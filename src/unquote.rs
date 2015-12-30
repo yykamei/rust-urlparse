@@ -4,7 +4,7 @@ use std::string::FromUtf8Error;
 use std::char::from_u32;
 
 
-/// Replace %xx escapes by their single-character equivalent.
+/// Replaces %xx escapes by their single-character equivalent.
 ///
 /// # Examples
 ///
@@ -61,7 +61,7 @@ pub fn unquote(s: &str) -> Result<String, FromUtf8Error> {
     return String::from_utf8(result);
 }
 
-/// Like unquote(), but also replace plus signs by spaces, as required for
+/// Like unquote(), but also replaces plus signs by spaces, as required for
 /// unquoting HTML form values.
 ///
 /// # Examples
