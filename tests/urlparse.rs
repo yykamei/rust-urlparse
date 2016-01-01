@@ -1,4 +1,4 @@
-/* Copyright (C) 2015 Yutaka Kamei */
+/* Copyright (C) 2015-2016 Yutaka Kamei */
 
 extern crate urlparse;
 use urlparse::*;
