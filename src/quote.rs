@@ -32,7 +32,7 @@ pub fn quote(s: &str, safe: &[u8]) -> Result<String, FromUtf8Error> {
             result.push(*item);
         } else {
             result.push(b'%');
-            result.append(&mut format!("{:X}", item).as_bytes().to_vec());
+            result.append(&mut format!("{:02X}", item).as_bytes().to_vec());
         }
     }
     return String::from_utf8(result);

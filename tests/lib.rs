@@ -2,13 +2,30 @@
 
 extern crate urlparse;
 use urlparse::*;
+use std::char::from_u32;
 
 
 #[test]
 fn test_quote() {
+    assert_eq!(quote(" ", &[]).ok().unwrap(), "%20");
     assert_eq!(quote("test@example.com", &[]).ok().unwrap(), "test%40example.com");
     assert_eq!(quote("123!'#$%&()", &[]).ok().unwrap(), "123%21%27%23%24%25%26%28%29");
     assert_eq!(quote("/a/テスト !/", &[b'/']).ok().unwrap(), "/a/%E3%83%86%E3%82%B9%E3%83%88%20%21/");
+}
+
+
+#[test]
+fn test_quote_default() {
+    let should_quote : String = (0..128)
+        .map(|i| from_u32(i as u32).unwrap())
+        .filter(|&c| c != '-' && c != '.' && c != '/' && c != '_')
+        .filter(|&c| !c.is_alphanumeric())
+        .collect();
+    for s in should_quote.chars() {
+        let original : &str = &format!("{}", s);
+        let expect : &str = &format!("%{:02X}", s as u32);
+        assert_eq!(quote(original, &[]).ok().unwrap(), expect);
+    }
 }
 
 
