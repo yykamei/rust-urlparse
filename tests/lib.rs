@@ -15,6 +15,13 @@ fn test_quote() {
 
 
 #[test]
+fn test_quote_plus() {
+    assert_eq!(quote_plus("Yutaka Kamei", &[]).ok().unwrap(), "Yutaka+Kamei");
+    assert_eq!(quote_plus("/a/テスト !/", &[b'/']).ok().unwrap(), "/a/%E3%83%86%E3%82%B9%E3%83%88+%21/");
+}
+
+
+#[test]
 fn test_quote_default() {
     let should_quote : String = (0..128)
         .map(|i| from_u32(i as u32).unwrap())
@@ -30,9 +37,15 @@ fn test_quote_default() {
 
 
 #[test]
-fn test_quote_plus() {
-    assert_eq!(quote_plus("Yutaka Kamei", &[]).ok().unwrap(), "Yutaka+Kamei");
-    assert_eq!(quote_plus("/a/テスト !/", &[b'/']).ok().unwrap(), "/a/%E3%83%86%E3%82%B9%E3%83%88+%21/");
+fn test_quote_safe() {
+    let should_not_quote = "<>";
+    assert_eq!(quote(should_not_quote, &[b'<', b'>']).ok().unwrap(), should_not_quote);
+    assert_eq!(quote_plus(should_not_quote, &[b'<', b'>']).ok().unwrap(), should_not_quote);
+}
+
+
+#[test]
+fn test_quote_generics() {
 }
 
 
