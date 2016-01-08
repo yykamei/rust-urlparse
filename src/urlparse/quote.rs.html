@@ -119,9 +119,9 @@
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>/// use urlparse::quote;</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// let s = quote(&quot;test@example.com&quot;, &amp;[]);</span>
+<span class='doccomment'>/// let s = quote(&quot;test@example.com&quot;, b&quot;&quot;);</span>
 <span class='doccomment'>/// assert_eq!(s.ok().unwrap(), &quot;test%40example.com&quot;);</span>
-<span class='doccomment'>/// let path = quote(&quot;/a/b/c&quot;, &amp;[b&#39;/&#39;]);</span>
+<span class='doccomment'>/// let path = quote(&quot;/a/b/c&quot;, b&quot;/&quot;);</span>
 <span class='doccomment'>/// assert_eq!(path.ok().unwrap(), &quot;/a/b/c&quot;);</span>
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>///</span>
@@ -135,7 +135,7 @@
             <span class='ident'>result</span>.<span class='ident'>push</span>(<span class='op'>*</span><span class='ident'>item</span>);
         } <span class='kw'>else</span> {
             <span class='ident'>result</span>.<span class='ident'>push</span>(<span class='string'>b&#39;%&#39;</span>);
-            <span class='ident'>result</span>.<span class='ident'>append</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:X}&quot;</span>, <span class='ident'>item</span>).<span class='ident'>as_bytes</span>().<span class='ident'>to_vec</span>());
+            <span class='ident'>result</span>.<span class='ident'>append</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:02X}&quot;</span>, <span class='ident'>item</span>).<span class='ident'>as_bytes</span>().<span class='ident'>to_vec</span>());
         }
     }
     <span class='kw'>return</span> <span class='ident'>String</span>::<span class='ident'>from_utf8</span>(<span class='ident'>result</span>);
@@ -149,7 +149,7 @@
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>/// use urlparse::quote_plus;</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// let s = quote_plus(&quot;a - b = 123&quot;, &amp;[]);</span>
+<span class='doccomment'>/// let s = quote_plus(&quot;a - b = 123&quot;, b&quot;&quot;);</span>
 <span class='doccomment'>/// assert_eq!(s.ok().unwrap(), &quot;a+-+b+%3D+123&quot;);</span>
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>///</span>
