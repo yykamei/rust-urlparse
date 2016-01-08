@@ -16,9 +16,9 @@ const ALWAYS_SAFE_BYTES : &'static [u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ\
 /// ```
 /// use urlparse::quote;
 ///
-/// let s = quote("test@example.com", &[]);
+/// let s = quote("test@example.com", b"");
 /// assert_eq!(s.ok().unwrap(), "test%40example.com");
-/// let path = quote("/a/b/c", &[b'/']);
+/// let path = quote("/a/b/c", b"/");
 /// assert_eq!(path.ok().unwrap(), "/a/b/c");
 /// ```
 ///
@@ -46,7 +46,7 @@ pub fn quote(s: &str, safe: &[u8]) -> Result<String, FromUtf8Error> {
 /// ```
 /// use urlparse::quote_plus;
 ///
-/// let s = quote_plus("a - b = 123", &[]);
+/// let s = quote_plus("a - b = 123", b"");
 /// assert_eq!(s.ok().unwrap(), "a+-+b+%3D+123");
 /// ```
 ///
