@@ -4,8 +4,8 @@
 
 This is a URL parsing library written in Rust.
 
-The goal of this project is to provide simple parsing URL library
-like urllib.parse in Python3.x.
+The goal of this project is to provide a simple parsing URL library
+like [urllib.parse](https://docs.python.org/3/library/urllib.parse.html) in Python3.x.
 
 ## Examples
 
