@@ -1,8 +1,9 @@
 /* Copyright (C) 2015 Yutaka Kamei */
 
 use std::string::FromUtf8Error;
-use std::char::from_u32;
 
+const OFFSET : usize = 6;
+const DIGIT : &'static [u8] = b"0123456789ABCDEFabcdef";
 
 /// Replaces %xx escapes by their single-character equivalent.
 ///
@@ -30,31 +31,15 @@ pub fn unquote(s: &str) -> Result<String, FromUtf8Error> {
                     result.append(&mut item.to_vec());
             },
             _ => {
-                let mut bit : u8 = 0;
                 let fs = &item[..2];
                 let ls = &item[2..];
-                for (i, b) in fs.iter().enumerate() {
-                    let d : u8 = match from_u32(*b as u32) {
-                        Some(c) => match c.to_digit(16) {
-                            Some(d) => d as u8,
-                            None => {
-                                result.append(&mut item.to_vec());
-                                break;
-                            },
-                        },
-                        None    => {
-                            result.append(&mut item.to_vec());
-                            break;
-                        },
-                    };
-                    if i == 0 {
-                        bit += d * 16
-                    } else {
-                        bit += d
-                    }
+                if let Some(digit) = to_digit(*fs.get(0).unwrap(), *fs.get(1).unwrap()) {
+                    result.push(digit);
+                    result.append(&mut ls.to_vec());
+                } else {
+                    result.push(b'%');
+                    result.append(&mut item.to_vec());
                 }
-                result.push(bit);
-                result.append(&mut ls.to_vec());
             },
         }
     }
@@ -76,4 +61,18 @@ pub fn unquote(s: &str) -> Result<String, FromUtf8Error> {
 pub fn unquote_plus(s: &str) -> Result<String, FromUtf8Error> {
     let _s = s.replace("+", " ");
     return unquote(&_s);
+}
+
+
+fn to_digit(n1: u8, n2: u8) -> Option<u8> {
+    let mut byte : u8 = 0;
+    match DIGIT.binary_search(&n1) {
+        Ok(_n1) => byte += if _n1 < 16 {_n1 as u8 * 16} else {(_n1 - OFFSET) as u8 * 16},
+        Err(_)  => return None,
+    }
+    match DIGIT.binary_search(&n2) {
+        Ok(_n2) => byte += if _n2 < 16 {_n2 as u8} else {(_n2 - OFFSET) as u8},
+        Err(_)  => return None,
+    }
+    return Some(byte);
 }

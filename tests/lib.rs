@@ -62,6 +62,24 @@ fn test_unquote_plus() {
 
 
 #[test]
+fn test_unquoting_badpercent() {
+    assert_eq!(unquote("%xab").ok().unwrap(), "%xab");
+    assert_eq!(unquote("%X").ok().unwrap(), "%X");
+    assert_eq!(unquote("%").ok().unwrap(), "%");
+    assert_eq!(unquote_plus("%xab").ok().unwrap(), "%xab");
+    assert_eq!(unquote_plus("%X").ok().unwrap(), "%X");
+    assert_eq!(unquote_plus("%").ok().unwrap(), "%");
+}
+
+
+#[test]
+fn test_unquoting_parts() {
+    assert_eq!(unquote("ab%63d").ok().unwrap(), "abcd");
+    assert_eq!(unquote_plus("ab%63d").ok().unwrap(), "abcd");
+}
+
+
+#[test]
 fn test_quote_unquote() {
     let text1 = "亀井 裕";
     let text2 = "亀井 裕 in Tokyo";
