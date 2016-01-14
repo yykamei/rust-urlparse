@@ -76,3 +76,14 @@ fn to_digit(n1: u8, n2: u8) -> Option<u8> {
     }
     return Some(byte);
 }
+
+
+#[test]
+fn test_to_digit() {
+    assert_eq!(to_digit(b'1', b'2'), Some(0x12));
+    assert_eq!(to_digit(b'e', b'a'), Some(0xEA));
+    assert_eq!(to_digit(b'E', b'A'), Some(0xEA));
+    assert_eq!(to_digit(b'F', b'F'), Some(0xFF));
+    assert_eq!(to_digit(b'X', b'1'), None);
+    assert_eq!(to_digit(b'A', b'x'), None);
+}
