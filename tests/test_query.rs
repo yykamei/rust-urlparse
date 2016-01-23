@@ -2,6 +2,34 @@
 
 extern crate urlparse;
 use urlparse::*;
+use std::collections::HashMap;
+use std::iter::FromIterator;
+
+
+#[test]
+fn test_qsl() {
+    let query = parse_qs("");
+    assert_eq!(query, HashMap::new());
+    let query = parse_qs("&");
+    assert_eq!(query, HashMap::new());
+    let query = parse_qs("&&");
+    assert_eq!(query, HashMap::new());
+    let query = parse_qs("=");
+    assert_eq!(query, HashMap::new());
+    let query = parse_qs("=a");
+    assert_eq!(query, HashMap::from_iter(vec![("".to_string(), vec!["a".to_string()])]));
+    let query = parse_qs("a");
+    assert_eq!(query, HashMap::new());
+    let query = parse_qs("a=");
+    assert_eq!(query, HashMap::new());
+    let query = parse_qs("&a=b");
+    assert_eq!(query, HashMap::from_iter(vec![("a".to_string(), vec!["b".to_string()])]));
+    let query = parse_qs("a=a+b&b=b+c");
+    assert_eq!(query, HashMap::from_iter(vec![("a".to_string(), vec!["a b".to_string()]),
+                                              ("b".to_string(), vec!["b c".to_string()])]));
+    let query = parse_qs("a=1&a=2");
+    assert_eq!(query, HashMap::from_iter(vec![("a".to_string(), vec!["1".to_string(), "2".to_string()])]));
+}
 
 
 #[test]
