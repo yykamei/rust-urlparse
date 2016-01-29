@@ -40,7 +40,7 @@ MIT
 If you're using Cargo, just add urlparse to your Cargo.toml:
 
     [dependencies.urlparse]
-    version = "*"
+    version = "0.7.2"
 
 ## Documentation
 
