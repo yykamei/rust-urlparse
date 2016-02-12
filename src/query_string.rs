@@ -82,11 +82,11 @@ pub fn parse_qs(s: &str) -> Query {
                 let (key, value) = item.split_at(index);
                 let _key = match unquote_plus(key) {
                     Ok(k)  => k,
-                    Err(_) => continue,  // FIXME: This is not strict mode.
+                    Err(_) => continue,  // NOTE: We ignore error when doing unquote_plus()
                 };
                 let _value = match unquote_plus(value.trim_left_matches('=')) {
                     Ok(v)  => v,
-                    Err(_) => continue,  // FIXME: This is not strict mode.
+                    Err(_) => continue,  // NOTE: We ignore error when doing unquote_plus()
                 };
                 if _value.is_empty() {
                     continue;
