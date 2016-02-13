@@ -74,9 +74,9 @@ impl GetQuery for Query {
 /// assert_eq!(*a.get(2).unwrap(), "亀井");
 /// ```
 ///
-pub fn parse_qs(s: &str) -> Query {
+pub fn parse_qs<S: AsRef<str>>(s: S) -> Query {
     let mut map : Query = Query::new();
-    for item in s.split(|c| c == '&' || c == ';') {
+    for item in s.as_ref().split(|c| c == '&' || c == ';') {
         match item.find('=') {
             Some(index) => {
                 let (key, value) = item.split_at(index);

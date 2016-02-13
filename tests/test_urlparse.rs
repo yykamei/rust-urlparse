@@ -311,7 +311,7 @@ fn test_urlparse_fragments() {
 
 #[test]
 fn test_urlparse_empty() {
-    let url = Url::parse("");
+    let url = Url::parse("".to_string());
     assert_eq!(url.scheme, "");
     assert_eq!(url.netloc, "");
     assert_eq!(url.path, "");

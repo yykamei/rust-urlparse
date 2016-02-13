@@ -36,7 +36,7 @@ fn test_qsl() {
 fn test_parse_qs() {
     let map1 = parse_qs("q=%E3%83%86%E3%82%B9%E3%83%88+%E3%83%86%E3%82%B9%E3%83%88&e=utf-8");
     let map2 = parse_qs("a=123&a=90&a=%E4%BA%80%E4%BA%95&b=0;n1;n2");
-    let map3 = parse_qs("a=v1&a=v2&b=cv1&c=");
+    let map3 = parse_qs("a=v1&a=v2&b=cv1&c=".to_string());
     let q = map1.get(&"q".to_string()).unwrap().get(0).unwrap();
     let e = map1.get(&"e".to_string()).unwrap().get(0).unwrap();
     let a = map2.get(&"a".to_string()).unwrap();

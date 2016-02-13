@@ -16,9 +16,9 @@ const DIGIT : &'static [u8] = b"0123456789ABCDEFabcdef";
 /// assert_eq!(s.ok().unwrap(), "ABC=123! DEF=##");
 /// ```
 ///
-pub fn unquote(s: &str) -> Result<String, FromUtf8Error> {
+pub fn unquote<S: AsRef<str>>(s: S) -> Result<String, FromUtf8Error> {
     let mut result : Vec<u8> = Vec::new();
-    let mut items = s.as_bytes().split(|&b| b == b'%');
+    let mut items = s.as_ref().as_bytes().split(|&b| b == b'%');
     match items.next() {
         Some(item) => result.append(&mut item.to_vec()),
         None       => return String::from_utf8(result),
@@ -58,9 +58,9 @@ pub fn unquote(s: &str) -> Result<String, FromUtf8Error> {
 /// assert_eq!(s.ok().unwrap(), "ABC=123! DEF=##");
 /// ```
 ///
-pub fn unquote_plus(s: &str) -> Result<String, FromUtf8Error> {
-    let _s = s.replace("+", " ");
-    return unquote(&_s);
+pub fn unquote_plus<S: AsRef<str>>(s: S) -> Result<String, FromUtf8Error> {
+    let _s = s.as_ref().replace("+", " ");
+    return unquote(_s);
 }
 
 

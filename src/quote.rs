@@ -20,11 +20,13 @@ const ALWAYS_SAFE_BYTES : &'static [u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ\
 /// assert_eq!(s.ok().unwrap(), "test%40example.com");
 /// let path = quote("/a/b/c", b"/");
 /// assert_eq!(path.ok().unwrap(), "/a/b/c");
+/// let ss = quote("|abc|".to_string(), b"/");
+/// assert_eq!(ss.ok().unwrap(), "%7Cabc%7C");
 /// ```
 ///
-pub fn quote(s: &str, safe: &[u8]) -> Result<String, FromUtf8Error> {
+pub fn quote<S: AsRef<str>>(s: S, safe: &[u8]) -> Result<String, FromUtf8Error> {
     let mut result : Vec<u8> = Vec::new();
-    let items = s.as_bytes();
+    let items = s.as_ref().as_bytes();
     let mut _safe = ALWAYS_SAFE_BYTES.to_vec();
     _safe.extend(safe);
     for item in items {
@@ -50,7 +52,7 @@ pub fn quote(s: &str, safe: &[u8]) -> Result<String, FromUtf8Error> {
 /// assert_eq!(s.ok().unwrap(), "a+-+b+%3D+123");
 /// ```
 ///
-pub fn quote_plus(s: &str, safe: &[u8]) -> Result<String, FromUtf8Error> {
+pub fn quote_plus<S: AsRef<str>>(s: S, safe: &[u8]) -> Result<String, FromUtf8Error> {
     let mut _safe : Vec<u8> = safe.to_vec();
     _safe.push(b' ');
     match quote(s, _safe.iter().as_slice()) {

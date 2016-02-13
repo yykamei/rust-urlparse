@@ -82,7 +82,8 @@ impl Url {
     /// assert_eq!(query.get(&"filter".to_string()).unwrap().get(0).unwrap(), "(!(cn=bar))");
     /// ```
     ///
-    pub fn parse(s: &str) -> Url {
+    pub fn parse<S: AsRef<str>>(s: S) -> Url {
+        let s = s.as_ref();
         let (scheme, extra) = match s.find(':') {
             Some(pos) => {
                 let (a, b) = s.split_at(pos);
@@ -225,7 +226,7 @@ impl Url {
 
 /// Parses a URL and returns a `Url` object. This is synonymous with `Url::parse()`.
 ///
-pub fn urlparse(s: &str) -> Url { Url::parse(s) }
+pub fn urlparse<S: AsRef<str>>(s: S) -> Url { Url::parse(s) }
 
 
 /// Returns a URL string from a `Url` object.

@@ -8,6 +8,7 @@ use std::char::from_u32;
 #[test]
 fn test_quote() {
     assert_eq!(quote(" ", &[]).ok().unwrap(), "%20");
+    assert_eq!(quote(" ".to_string(), &[]).ok().unwrap(), "%20");
     assert_eq!(quote("test@example.com", &[]).ok().unwrap(), "test%40example.com");
     assert_eq!(quote("123!'#$%&()", &[]).ok().unwrap(), "123%21%27%23%24%25%26%28%29");
     assert_eq!(quote("/a/テスト !/", &[b'/']).ok().unwrap(), "/a/%E3%83%86%E3%82%B9%E3%83%88%20%21/");
@@ -17,6 +18,7 @@ fn test_quote() {
 #[test]
 fn test_quote_plus() {
     assert_eq!(quote_plus("Yutaka Kamei", b"").ok().unwrap(), "Yutaka+Kamei");
+    assert_eq!(quote_plus("Yutaka Kamei".to_string(), b"").ok().unwrap(), "Yutaka+Kamei");
     assert_eq!(quote_plus("/a/テスト !/", b"/").ok().unwrap(), "/a/%E3%83%86%E3%82%B9%E3%83%88+%21/");
 }
 
@@ -47,12 +49,14 @@ fn test_quote_safe() {
 #[test]
 fn test_unquote() {
     assert_eq!(unquote("%E4%BA%80%E4%BA%95%20%E8%A3%95").ok().unwrap(), "亀井 裕");
+    assert_eq!(unquote("%E4%BA%80%E4%BA%95%20%E8%A3%95".to_string()).ok().unwrap(), "亀井 裕");
 }
 
 
 #[test]
 fn test_unquote_plus() {
     assert_eq!(unquote_plus("%E4%BA%80%E4%BA%95+%E8%A3%95").ok().unwrap(), "亀井 裕");
+    assert_eq!(unquote_plus("%E4%BA%80%E4%BA%95+%E8%A3%95".to_string()).ok().unwrap(), "亀井 裕");
 }
 
 
