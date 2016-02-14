@@ -9,6 +9,7 @@
 
     <title>unquote.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
     
@@ -119,12 +120,23 @@
 <span id="77">77</span>
 <span id="78">78</span>
 <span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
 </pre><pre class='rust '>
 <span class='comment'>/* Copyright (C) 2015 Yutaka Kamei */</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>string</span>::<span class='ident'>FromUtf8Error</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>char</span>::<span class='ident'>from_u32</span>;
 
+<span class='kw'>const</span> <span class='ident'>OFFSET</span> : <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>6</span>;
+<span class='kw'>const</span> <span class='ident'>DIGIT</span> : <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>u8</span>] <span class='op'>=</span> <span class='string'>b&quot;0123456789ABCDEFabcdef&quot;</span>;
 
 <span class='doccomment'>/// Replaces %xx escapes by their single-character equivalent.</span>
 <span class='doccomment'>///</span>
@@ -137,9 +149,9 @@
 <span class='doccomment'>/// assert_eq!(s.ok().unwrap(), &quot;ABC=123! DEF=##&quot;);</span>
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>///</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unquote</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>FromUtf8Error</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unquote</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;&gt;</span>(<span class='ident'>s</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>FromUtf8Error</span><span class='op'>&gt;</span> {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> : <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>items</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>as_bytes</span>().<span class='ident'>split</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>b</span><span class='op'>|</span> <span class='ident'>b</span> <span class='op'>==</span> <span class='string'>b&#39;%&#39;</span>);
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>items</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>as_ref</span>().<span class='ident'>as_bytes</span>().<span class='ident'>split</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>b</span><span class='op'>|</span> <span class='ident'>b</span> <span class='op'>==</span> <span class='string'>b&#39;%&#39;</span>);
     <span class='kw'>match</span> <span class='ident'>items</span>.<span class='ident'>next</span>() {
         <span class='prelude-val'>Some</span>(<span class='ident'>item</span>) <span class='op'>=&gt;</span> <span class='ident'>result</span>.<span class='ident'>append</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>item</span>.<span class='ident'>to_vec</span>()),
         <span class='prelude-val'>None</span>       <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>String</span>::<span class='ident'>from_utf8</span>(<span class='ident'>result</span>),
@@ -152,31 +164,15 @@
                     <span class='ident'>result</span>.<span class='ident'>append</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>item</span>.<span class='ident'>to_vec</span>());
             },
             _ <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>bit</span> : <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>0</span>;
                 <span class='kw'>let</span> <span class='ident'>fs</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>item</span>[..<span class='number'>2</span>];
                 <span class='kw'>let</span> <span class='ident'>ls</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>item</span>[<span class='number'>2</span>..];
-                <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>b</span>) <span class='kw'>in</span> <span class='ident'>fs</span>.<span class='ident'>iter</span>().<span class='ident'>enumerate</span>() {
-                    <span class='kw'>let</span> <span class='ident'>d</span> : <span class='ident'>u8</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>from_u32</span>(<span class='op'>*</span><span class='ident'>b</span> <span class='kw'>as</span> <span class='ident'>u32</span>) {
-                        <span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>c</span>.<span class='ident'>to_digit</span>(<span class='number'>16</span>) {
-                            <span class='prelude-val'>Some</span>(<span class='ident'>d</span>) <span class='op'>=&gt;</span> <span class='ident'>d</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-                            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                                <span class='ident'>result</span>.<span class='ident'>append</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>item</span>.<span class='ident'>to_vec</span>());
-                                <span class='kw'>break</span>;
-                            },
-                        },
-                        <span class='prelude-val'>None</span>    <span class='op'>=&gt;</span> {
-                            <span class='ident'>result</span>.<span class='ident'>append</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>item</span>.<span class='ident'>to_vec</span>());
-                            <span class='kw'>break</span>;
-                        },
-                    };
-                    <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>==</span> <span class='number'>0</span> {
-                        <span class='ident'>bit</span> <span class='op'>+=</span> <span class='ident'>d</span> <span class='op'>*</span> <span class='number'>16</span>
-                    } <span class='kw'>else</span> {
-                        <span class='ident'>bit</span> <span class='op'>+=</span> <span class='ident'>d</span>
-                    }
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>digit</span>) <span class='op'>=</span> <span class='ident'>to_digit</span>(<span class='op'>*</span><span class='ident'>fs</span>.<span class='ident'>get</span>(<span class='number'>0</span>).<span class='ident'>unwrap</span>(), <span class='op'>*</span><span class='ident'>fs</span>.<span class='ident'>get</span>(<span class='number'>1</span>).<span class='ident'>unwrap</span>()) {
+                    <span class='ident'>result</span>.<span class='ident'>push</span>(<span class='ident'>digit</span>);
+                    <span class='ident'>result</span>.<span class='ident'>append</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ls</span>.<span class='ident'>to_vec</span>());
+                } <span class='kw'>else</span> {
+                    <span class='ident'>result</span>.<span class='ident'>push</span>(<span class='string'>b&#39;%&#39;</span>);
+                    <span class='ident'>result</span>.<span class='ident'>append</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>item</span>.<span class='ident'>to_vec</span>());
                 }
-                <span class='ident'>result</span>.<span class='ident'>push</span>(<span class='ident'>bit</span>);
-                <span class='ident'>result</span>.<span class='ident'>append</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ls</span>.<span class='ident'>to_vec</span>());
             },
         }
     }
@@ -195,9 +191,34 @@
 <span class='doccomment'>/// assert_eq!(s.ok().unwrap(), &quot;ABC=123! DEF=##&quot;);</span>
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>///</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unquote_plus</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>FromUtf8Error</span><span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='ident'>_s</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>replace</span>(<span class='string'>&quot;+&quot;</span>, <span class='string'>&quot; &quot;</span>);
-    <span class='kw'>return</span> <span class='ident'>unquote</span>(<span class='kw-2'>&amp;</span><span class='ident'>_s</span>);
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unquote_plus</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;&gt;</span>(<span class='ident'>s</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>FromUtf8Error</span><span class='op'>&gt;</span> {
+    <span class='kw'>let</span> <span class='ident'>_s</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>as_ref</span>().<span class='ident'>replace</span>(<span class='string'>&quot;+&quot;</span>, <span class='string'>&quot; &quot;</span>);
+    <span class='kw'>return</span> <span class='ident'>unquote</span>(<span class='ident'>_s</span>);
+}
+
+
+<span class='kw'>fn</span> <span class='ident'>to_digit</span>(<span class='ident'>n1</span>: <span class='ident'>u8</span>, <span class='ident'>n2</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> {
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>byte</span> : <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>0</span>;
+    <span class='kw'>match</span> <span class='ident'>DIGIT</span>.<span class='ident'>binary_search</span>(<span class='kw-2'>&amp;</span><span class='ident'>n1</span>) {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>_n1</span>) <span class='op'>=&gt;</span> <span class='ident'>byte</span> <span class='op'>+=</span> <span class='kw'>if</span> <span class='ident'>_n1</span> <span class='op'>&lt;</span> <span class='number'>16</span> {<span class='ident'>_n1</span> <span class='kw'>as</span> <span class='ident'>u8</span> <span class='op'>*</span> <span class='number'>16</span>} <span class='kw'>else</span> {(<span class='ident'>_n1</span> <span class='op'>-</span> <span class='ident'>OFFSET</span>) <span class='kw'>as</span> <span class='ident'>u8</span> <span class='op'>*</span> <span class='number'>16</span>},
+        <span class='prelude-val'>Err</span>(_)  <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>None</span>,
+    }
+    <span class='kw'>match</span> <span class='ident'>DIGIT</span>.<span class='ident'>binary_search</span>(<span class='kw-2'>&amp;</span><span class='ident'>n2</span>) {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>_n2</span>) <span class='op'>=&gt;</span> <span class='ident'>byte</span> <span class='op'>+=</span> <span class='kw'>if</span> <span class='ident'>_n2</span> <span class='op'>&lt;</span> <span class='number'>16</span> {<span class='ident'>_n2</span> <span class='kw'>as</span> <span class='ident'>u8</span>} <span class='kw'>else</span> {(<span class='ident'>_n2</span> <span class='op'>-</span> <span class='ident'>OFFSET</span>) <span class='kw'>as</span> <span class='ident'>u8</span>},
+        <span class='prelude-val'>Err</span>(_)  <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>None</span>,
+    }
+    <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='ident'>byte</span>);
+}
+
+
+<span class='attribute'>#[<span class='ident'>test</span>]</span>
+<span class='kw'>fn</span> <span class='ident'>test_to_digit</span>() {
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>to_digit</span>(<span class='string'>b&#39;1&#39;</span>, <span class='string'>b&#39;2&#39;</span>), <span class='prelude-val'>Some</span>(<span class='number'>0x12</span>));
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>to_digit</span>(<span class='string'>b&#39;e&#39;</span>, <span class='string'>b&#39;a&#39;</span>), <span class='prelude-val'>Some</span>(<span class='number'>0xEA</span>));
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>to_digit</span>(<span class='string'>b&#39;E&#39;</span>, <span class='string'>b&#39;A&#39;</span>), <span class='prelude-val'>Some</span>(<span class='number'>0xEA</span>));
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>to_digit</span>(<span class='string'>b&#39;F&#39;</span>, <span class='string'>b&#39;F&#39;</span>), <span class='prelude-val'>Some</span>(<span class='number'>0xFF</span>));
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>to_digit</span>(<span class='string'>b&#39;X&#39;</span>, <span class='string'>b&#39;1&#39;</span>), <span class='prelude-val'>None</span>);
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>to_digit</span>(<span class='string'>b&#39;A&#39;</span>, <span class='string'>b&#39;x&#39;</span>), <span class='prelude-val'>None</span>);
 }
 </pre>
 </section>
@@ -259,6 +280,6 @@
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     
-    <script async src="../../search-index.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>
